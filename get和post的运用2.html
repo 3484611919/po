@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            width: 400px;
+            height: 100px;
+            background-color: rgb(172, 172, 172);
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <div></div>
+    <button>更改</button>
+    <script>
+        $(function() {
+            $('button').on('click', function() {
+                $.post('https://xl.xilinglaoshi.com:8001/qingshi', function(res) {
+                        $('div').text(res.data[0].content);
+                        console.log(res); //在获取数据之前先确定好数据的结构，比如这里的要获取的文本数据存储于返回的res里的data，data是一个数组，并且点击一次只会
+                        // 返回一个数据，就是data里面的第一个data[0],没有第二个数据，但是每次点击data[0]都会不一样,而且没有data[1],每一个数组的子集都是一个对象
+                        // 所以应该用data[0].content 这里的content是属性名，从而把属性值赋予div的文本当中 就可以直接显示拿来的数据了。这里res就是一个大的对象
+                        // data只是里面的一个属性名
+                    }, 'json') //json意义不太清楚，也没有讲
+            })
+            $.post('https://xl.xilinglaoshi.com:8001/qingshi', function(res) {
+                    $('div').text(res.data[0].content);
+
+                }, 'json')
+                // $('button').on('click', function() {
+                //     $.ajax({
+                //         type: 'POST',
+                //         url: 'https://xl.xilinglaoshi.com:8001/qingshi',
+                //         data: {
+                //             content:
+                //         },
+                //         success: function(res) {
+                //             $('div').text(res.data[0].content);
+
+            //         }
+
+            //     })
+            // })
+        })
+    </script>
+</body>
+
+</html>

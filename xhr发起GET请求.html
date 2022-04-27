@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <form action="" id="form1">
+        <input type="text" name="username" id="names">
+        <input type="password" name="password" id="mm">
+        <button type="submit">提交</button>
+    </form>
+
+    <script>
+        var form1 = document.querySelector('#form1');
+        var text = document.querySelector('#names');
+        var password = document.querySelector('#mm');
+        form1.addEventListener('submit', function(e) {
+            e.preventDefault();
+            var fd = new FormData(form1);
+            console.log(fd);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://www.liulongbin.top:3006/api/formdata');
+            xhr.send(fd);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(JSON.parse(xhr.responseText));
+                }
+            }
+            $('#names').val('');
+            $('#mm').val('');
+
+        })
+    </script>
+</body>
+
+</html>

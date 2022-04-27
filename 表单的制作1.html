@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./js/bootstrap.css">
+    <script src="./js/jquery-3.2.1.min.js"></script>
+
+</head>
+
+<body style="padding:15px">
+    <!-- 表头部分 -->
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">加图书</h3>
+        </div>
+        <div class="panel-body form-inline">
+
+            <div class="input-group">
+                <div class="input-group-addon">图书名</div>
+                <input type="text" class="form-control" id="bookname" placeholder="请输入图书名">
+
+            </div>
+            <div class="input-group">
+                <div class="input-group-addon">作者</div>
+                <input type="text" class="form-control" id="author" placeholder="请输入作者名">
+            </div>
+            <div class="input-group">
+                <div class="input-group-addon">出版社</div>
+                <input type="text" class="form-control" id="publisher" placeholder="请输入出版社">
+            </div>
+            <button id="add" class="btn btn-primary">添加</button>
+
+        </div>
+    </div>
+    <!-- 表头部分 -->
+    <!-- 表身 -->
+
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>书名</th>
+                <th>作者</th>
+                <th>出版社</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="bookBody">
+
+        </tbody>
+    </table>
+
+    <!-- 表身 -->
+    <script>
+        $(function() {
+
+            function getBooklist() {
+                $.get('http://www.liulongbin.top:3006/api/getbooks', function(res) {
+                    if (res.status !== 200) return alert('获取图书失败');
+                    var a1 = [];
+                    $.each(res.data, function(i, item) {
+                        a1.push('<tr><td>' + item.id + '</td><td>' + item.bookname + '</td><td>' + item.author + '</td><td>' + item.publisher + '</td><td><a href="javascript:;" class="del" data-id="' + item.id + '">删除</a></td></tr>')
+                            //每个data数组的小子集都有自己的几个属性 id bookname author publisher  分别把它们的值给不同的td即可
+                    })
+                    $('#bookBody').empty().append(a1.join('')); //先清空 再追加新的表格内容 join表示用空格分开数组的每个子集，但是这里好像不加join也没有关系
+                })
+            }
+
+            getBooklist();
+            $('#bookBody').on('click', '.del', function() { //这里必须借助代理，因为是后面新创建出来的元素
+                var id = $(this).attr('data-id'); //获取属性值的命令
+                // console.log(id);保证每次的点击都可以拿到相应的id
+
+                $.get('http://www.liulongbin.top:3006/api/delbook', {
+                    id: id //根据id拿到对应的对象
+                }, function(res) {
+                    if (res.status !== 200) return alert('删除失败');
+                    getBooklist();
+                })
+            })
+            $('#add').on('click', function() {
+                var bookname = $('#bookname').val().trim(); //把每一个文本框里的值拿到
+                var author = $('#author').val().trim();
+                var publisher = $('#publisher').val().trim();
+                if (bookname.length <= 0 || author.length <= 0 || publisher.length <= 0) return alert('请输入正确格式，草泥马');
+                $.post('http://www.liulongbin.top:3006/api/addbook', {
+
+                    bookname: bookname,
+                    author: author,
+                    publisher: publisher
+                }, function(res) {
+                    if (res.status !== 201) return alert('添加失败');
+                    getBooklist();
+                    $('#bookname').val('');
+                    $('#author').val('');
+                    $('#publisher').val('');
+                })
+            })
+        })
+    </script>
+</body>
+
+</html>

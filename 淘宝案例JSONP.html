@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <script src="./js/template-web.js"></script>
+    <script src="./js/tem.js"></script>
+    <style>
+        input {
+            width: 250px;
+            height: 30px;
+            outline: none;
+        }
+        
+        .a1 {
+            width: 250px;
+            height: 30px;
+            margin: 50px auto;
+        }
+        
+        #a2 {
+            display: none;
+            width: 256px;
+            border: 1px solid black;
+            /* height: 20px;
+            background-color: rgb(255, 173, 173); */
+        }
+        
+        .item {
+            line-height: 30px;
+            padding-left: 8px;
+            cursor: pointer;
+        }
+        
+        .item:hover {
+            background-color: rgb(153, 153, 153);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="a1">
+        <input type="text" id="input">
+        <div id="a2"></div>
+    </div>
+    <script type="text/html" id="tpl">
+        {{each result}}
+        <div class="item">{{$value[0]}}</div>
+        {{/each}}
+    </script>
+    <script>
+        $(function() {
+            var Obj = {}; //记忆先前出现过的数据
+            $("#input").on('keyup', function() {
+                clearTimeout(timer);
+                var keyword = $(this).val().trim();
+                if (keyword.length <= 0) {
+                    return $('#a2').empty().hide();
+                }
+                if (Obj[keyword]) {
+                    return reder(Obj[keyword]); //如果现在的对象和之前的关键词重合则直接渲染已经保存的数据 不用再另外请求
+                }
+                // console.log(keyword);
+                de(keyword);
+                $('#a2').on('click', '.item', function() {
+                    $('#input').val($(this).text()); //点击以后读取这个选项的文本
+                    $('#a2').empty().hide(); //隐藏推荐栏目
+
+
+                })
+
+            })
+            var timer = null;
+            var Obj = {}; //记忆先前出现过的数据
+
+            function de(kw) { //防抖
+                timer = setTimeout(function() {
+                    getList(kw)
+                }, 250)
+
+            }
+
+            function getList(kw) {
+                $.ajax({
+                    url: 'http://suggest.taobao.com/sug?q=' + kw,
+                    dataType: 'jsonp',
+                    success: function(res) {
+                        console.log(res);
+                        reder(res) //返回数据的同时 渲染数据
+                    }
+                })
+
+            }
+
+            function reder(res) { //重点理解渲染过程 res指的是返回的所有数据
+                if (res.result.length <= 0) {
+                    return $('#a2').empty().hide();
+                }
+                var htmlStr = template('tpl', res);
+                $('#a2').html(htmlStr).show();
+                var k = $('#input').val().trim();
+                Obj[k] = res;
+            }
+        })
+    </script>
+
+</body>
+
+</html>

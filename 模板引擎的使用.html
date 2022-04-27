@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <script src="./js/template-web.js"></script>
+    <script src="./js/tem.js"></script>
+    <!-- 引入自定义的模板引擎函数 -->
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div id="box"></div>
+    <script type="text/html" id="tpl">
+        <div>姓名:{{name}}</div>
+        <div>年龄:{{ age }}</div>
+        <div>性别:{{ sex}}</div>
+        <div>地址:{{ adderss }}</div>
+
+    </script>
+    <script>
+        var data = {
+            name: 'zs',
+            age: 20,
+            sex: '男',
+            adderss: '北京'
+        }
+        var htmlstr = template('tpl', data); //引入模板引擎 
+        document.getElementById('box').innerHTML = htmlstr; //渲染进页面
+    </script>
+</body>
+
+</html>

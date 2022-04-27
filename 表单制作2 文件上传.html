@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <style>
+        /* form {
+            margin: 60px auto;
+        } */
+        
+        .a0 {
+            position: relative;
+            width: 700px;
+            height: 500px;
+            margin: 20px auto;
+            text-align: center;
+            background-color: rgb(255, 205, 205);
+        }
+        
+        .xm {
+            margin-top: 30px;
+        }
+        
+        .dh {
+            margin-top: 40px;
+        }
+        
+        .jj {
+            margin-left: 0px;
+            margin-top: 40px;
+        }
+        
+        .yx {
+            margin-top: 40px;
+        }
+        
+        .memoRadio {
+            margin-top: 20px;
+        }
+        
+        .nl {
+            margin-top: 20px;
+        }
+        
+        .tx {
+            margin-top: 40px;
+        }
+        
+        #xm {
+            margin-left: 10px;
+            width: 600px;
+            height: 40px;
+        }
+        
+        #phone {
+            margin-left: 10px;
+            width: 600px;
+            height: 40px;
+        }
+        
+        #phone {
+            margin-left: 10px;
+            width: 600px;
+            height: 40px;
+        }
+        
+        #em {
+            margin-left: 10px;
+            width: 600px;
+            height: 40px;
+        }
+        
+        #age {
+            margin-left: 10px;
+            width: 600px;
+            height: 40px;
+        }
+        
+        #tx {
+            margin-left: 75px;
+        }
+        
+        #jianjie {
+            width: 600px;
+            height: 80px;
+            margin-left: 10px;
+        }
+        
+        .memoRadio {
+            margin-left: -220px;
+        }
+        
+        .memoRadio input {
+            margin-left: 160px;
+        }
+        
+        button {
+            margin-top: 10px;
+            margin-left: 30px;
+        }
+        
+        input {
+            outline: none;
+        }
+        
+        .aniu {
+            margin-left: -465px;
+        }
+        
+        .txlabel {
+            position: absolute;
+            left: 28px;
+            top: 83px;
+        }
+        
+        .jjla {
+            position: absolute;
+            left: 31px;
+            bottom: 62px;
+        }
+        
+        textarea {
+            margin-left: 40px;
+            width: 600px;
+            height: 80px;
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="a0">
+        <form action="" target="_blank" id="a1" method="POST" enctype="multipart/form-data">
+            <div class="xm">
+                <label for="">姓名</label>
+                <input type="text" name="user" id="xm" placeholder="姓名">
+            </div>
+            <div class="tx">
+                <div class="txlabel"><label for="">头像</label></div>
+
+                <input type="file" name="toux" id="tx" placeholder="电话">
+            </div>
+            <div class="dh">
+                <label for="">电话</label>
+                <input type="text" name="phone" id="phone" placeholder="电话">
+            </div>
+            <div class="yx">
+                <label for="">邮箱</label>
+                <input type="email" name="email" placeholder="邮箱" id="em">
+            </div>
+            <div class="memoRadio">
+                <label for="">性别</label>
+                <label> 
+                    <!-- 复选框的单选 -->
+                            <input type="radio" name="optionsRadios1" id="optionsRadios1" value="option1" checked> 男
+                        </label>
+                <label>
+                        <input type="radio" name="optionsRadios2" id="optionsRadios2"  value="option2"> 女
+                         </label>
+            </div>
+            <div class="nl">
+                <label for="">年龄</label>
+                <input type="text" name="age" id="age" placeholder="年龄">
+            </div>
+            <div class="jj">
+                <div class="jjla">
+                    <label for="">简介</label>
+                </div>
+
+                <!-- <input type="text" name="jj" id="jianjie"> -->
+                <textarea name="jianjie"></textarea>
+            </div>
+            <div class="aniu">
+                <button class="a2">提交</button> <button class="a3">更改</button>
+            </div>
+
+            <!-- <input type="text " name="user ">
+                    <input type="password " name="password "> -->
+        </form>
+
+
+    </div>
+
+    <script>
+        $(function() {
+            $('button').on('click', function(e) {
+                e.preventDefault();
+                var data = $('#a1').serialize();
+                $('#a1')[0].reset();
+                console.log(data); //获取表单的数据
+            })
+        })
+    </script>
+</body>
+
+</html>

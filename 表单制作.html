@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+    <input type="text" id="text"><button>邮箱验证</button>
+
+    <script>
+        var input = document.querySelector('#text');
+
+        var button = document.querySelector('button');
+        button.addEventListener('click', function() {
+            var values = document.getElementById("text").value;
+            // console.log(values);
+            var pattern = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/ //邮箱正则表达式
+            var result = pattern.exec(values); //如果满足正则表达式的格式，则resul不为null;
+            console.log(result);
+
+            if (result == null) {
+                button.innerHTML = '邮箱格式错误';
+            } else {
+                button.innerHTML = '邮箱验证通过';
+            }
+
+
+        })
+    </script>
+</body>
+
+</html>

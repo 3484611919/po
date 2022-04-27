@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <style>
+        input {
+            display: inline;
+        }
+        
+        button {
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="file" id="files">
+    <button id="upload">上传文件</button>
+    <br/>
+
+
+    <div class="progress" style="width:500px; margin:15px 10px;">
+        <div class="progress-bar progress-bar-striped active" style="width: 0%" id="percent">
+            0%
+        </div>
+    </div>
+    <img src="" alt="" id="images" width="100px">
+
+    <script>
+        var upload = document.querySelector('#upload');
+
+        upload.addEventListener('click', function() {
+            var files = document.querySelector('#files').files;
+
+            if (files.length <= 0) {
+                return alert('请选择上传文件')
+            }
+            console.log('用户选择了文件')
+            var fd = new FormData()
+            fd.append('avatar', files[0]) //给要提交的数据追加了文件
+            var xhr = new XMLHttpRequest()
+                //监听文件的上传进度
+            xhr.upload.onprogress = function(e) {
+                if (e.lengthComputable) {
+                    var percent = Math.ceil((e.loaded / e.total) * 100)
+                    console.log(percent); //显示百分比进度
+                    $('#percent').attr('style', 'width:' + percent + '%;').html(percent + '%');
+
+                }
+            }
+            xhr.upload.onload = function() { //进度条满以后的样式
+                $('#percent').removeClass().addClass('progress-bar progress-bar-success progress-bar-striped')
+            }
+            xhr.open('POST', 'http://www.liulongbin.top:3006/api/upload/avatar');
+            xhr.send(fd)
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText)
+                        // console.log(data)
+                    if (data.status === 200) {
+                        document.querySelector('#images').src = 'http://www.liulongbin.top:3006' + data.url; //让图片显示出来
+
+                    } else {
+                        console.log('错误');
+
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
